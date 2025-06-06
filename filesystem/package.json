@@ -1,0 +1,50 @@
+{
+  "name": "mcp-filesystem-server",
+  "version": "1.0.0",
+  "description": "MCP server for secure filesystem access with advanced document parsing",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-filesystem-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "parse_document.py",
+    "requirements.txt",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "dev": "tsc --watch",
+    "prepare": "npm run build",
+    "clean": "rm -rf dist",
+    "test": "node test_mcp.js",
+    "test:basic": "echo \"No tests specified yet\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.5.0",
+    "diff": "^5.1.0",
+    "minimatch": "^10.0.1",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.23.5"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.9",
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^22.0.0",
+    "shx": "^0.3.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "filesystem",
+    "document-parsing",
+    "pdf",
+    "office-documents"
+  ]
+}
