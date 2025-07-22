@@ -1,0 +1,98 @@
+{
+  "name": "Brazilian Finance MCP Server",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server providing access to Brazilian financial data from official sources (CVM, BCB, IBGE, Tesouro Nacional, ANBIMA, SUSEP)",
+  "author": "Brazilian Finance MCP Project",
+  "homepage": "https://github.com/yourusername/brazilian-finance-mcp",
+  "license": "MIT",
+  "resources": [
+    {
+      "uri": "duckdb://finance/fund_daily",
+      "name": "Investment Fund Daily Reports",
+      "description": "Daily NAV, flows, and metrics for Brazilian investment funds (CVM data)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "duckdb://finance/timeseries",
+      "name": "Economic Time Series",
+      "description": "Historical economic indicators from BCB, ANBIMA, and Tesouro",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "duckdb://finance/ibge_indicator",
+      "name": "IBGE Statistical Indicators",
+      "description": "Official statistics from Brazilian Institute of Geography and Statistics",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "duckdb://finance/bank_products",
+      "name": "Banking & Insurance Products",
+      "description": "Open Finance and Open Insurance product offerings",
+      "mimeType": "application/json"
+    }
+  ],
+  "tools": [
+    {
+      "name": "sql_query",
+      "description": "Execute read-only SQL queries on the Brazilian finance database",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "SQL query to execute (SELECT statements only)"
+          }
+        },
+        "required": ["query"]
+      },
+      "annotations": {
+        "title": "SQL Query Tool",
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "refresh_data",
+      "description": "Trigger data refresh for connectors",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "connector": {
+            "type": "string",
+            "description": "Specific connector to refresh",
+            "enum": ["cvm", "bcb", "ibge", "tesouro", "anbima", "susep", "open_finance", "all"]
+          }
+        }
+      }
+    }
+  ],
+  "permissions": {
+    "net": [
+      "dados.cvm.gov.br",
+      "api.bcb.gov.br",
+      "servicodados.ibge.gov.br",
+      "api.sidra.ibge.gov.br", 
+      "api.tesourotransparente.gov.br",
+      "apidatalake.tesouro.gov.br",
+      "api.anbima.com.br",
+      "www2.susep.gov.br",
+      "openbanking.bb.com.br",
+      "openbanking.caixa.gov.br",
+      "openbanking.santander.com.br"
+    ],
+    "fs": [
+      "/data/"
+    ]
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8000,
+    "endpoints": {
+      "resources_list": "/mcp/resources/list",
+      "resources_read": "/mcp/resources/read", 
+      "tools_list": "/mcp/tools/list",
+      "tools_call": "/mcp/tools/call"
+    }
+  }
+}
