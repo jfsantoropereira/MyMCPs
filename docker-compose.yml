@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  brazilian-finance-mcp:
+    build: .
+    container_name: brazilian-finance-mcp
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./finance.duckdb:/app/finance.duckdb
+    environment:
+      - ANBIMA_CLIENT_ID=${ANBIMA_CLIENT_ID:-}
+      - ANBIMA_CLIENT_SECRET=${ANBIMA_CLIENT_SECRET:-}
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  finance_data:
+    driver: local

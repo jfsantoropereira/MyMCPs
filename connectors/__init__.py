@@ -1,0 +1,1 @@
+# Brazilian Finance MCP Connectors Package
